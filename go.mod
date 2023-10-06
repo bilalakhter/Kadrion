@@ -1,4 +1,4 @@
-module kadrion
+module github.com/bilalakhter/kadrion
 
 go 1.21.1
 
