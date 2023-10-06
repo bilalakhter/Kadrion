@@ -1,4 +1,4 @@
-package toolinfo
+package toolusage
 
 import (
 	"fmt"
