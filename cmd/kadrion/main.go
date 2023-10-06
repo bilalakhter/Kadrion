@@ -72,7 +72,7 @@ func main() {
 			}
 		}
 	} else {
-		toolInfo()
+		toolusage.toolInfo()
 	}
 
 }
