@@ -49,19 +49,18 @@ func TestQueue() {
 
 	}()
 	endpoint_number = 1
-	for _, tconfig := range tconfigs.API {
+	for _, tconfig := range tconfigs.API.Endpoints {
 		time.Sleep(1 * time.Second)
-		TestEndpoint(tconfig.Endpoint, tconfig.Method, tconfig.JSON)
+		TestEndpoint(tconfig.Endpoint, tconfig.Method, tconfig.JSON, tconfigs.API.MaxConcurrentRequests, tconfigs.API.NumberOfRequests)
 		time.Sleep(1 * time.Second)
 		endpoint_number += 1
 	}
 
 }
 
-func TestEndpoint(endpoint, method string, jsonbody map[string]interface{}) {
-	max_concurrent_requests := 2000
-	number_requests := 10
-	concurrent_request_differential := max_concurrent_requests * 5 / 100
+func TestEndpoint(endpoint, method string, jsonbody map[string]interface{}, max_concurrent_requests int, number_requests int) {
+
+	concurrent_request_differential := max_concurrent_requests / number_requests
 	result_response_time := []time.Duration{}
 	result_attempt := []int{}
 	result_concurrent_requests := []int{}
@@ -73,9 +72,9 @@ func TestEndpoint(endpoint, method string, jsonbody map[string]interface{}) {
 		result_concurrent_requests = append(result_concurrent_requests, concurrent_request_differential)
 
 		if i <= number_requests/2 {
-			concurrent_request_differential += max_concurrent_requests * 5 / 100
+			concurrent_request_differential += max_concurrent_requests / number_requests
 		} else {
-			concurrent_request_differential -= max_concurrent_requests * 5 / 100
+			concurrent_request_differential -= max_concurrent_requests / number_requests
 		}
 	}
 
