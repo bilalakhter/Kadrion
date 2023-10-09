@@ -2,7 +2,6 @@ package testprocess
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"github.com/bilalakhter/kadrion/internal/customtypes"
 	"github.com/olekukonko/tablewriter"
@@ -50,15 +49,13 @@ func TestQueue() {
 	}()
 	endpoint_number = 1
 	for _, tconfig := range tconfigs.API.Endpoints {
-		time.Sleep(1 * time.Second)
-		TestEndpoint(tconfig.Endpoint, tconfig.Method, tconfig.JSON, tconfigs.API.MaxConcurrentRequests, tconfigs.API.NumberOfRequests)
-		time.Sleep(1 * time.Second)
+		TestEndpoint(tconfig.Endpoint, tconfig.Method, []byte(tconfig.JSON), tconfigs.API.MaxConcurrentRequests, tconfigs.API.NumberOfRequests)
 		endpoint_number += 1
 	}
 
 }
 
-func TestEndpoint(endpoint, method string, jsonbody map[string]interface{}, max_concurrent_requests int, number_requests int) {
+func TestEndpoint(endpoint, method string, jsonbody []byte, max_concurrent_requests int, number_requests int) {
 
 	concurrent_request_differential := max_concurrent_requests / number_requests
 	result_response_time := []time.Duration{}
@@ -71,11 +68,8 @@ func TestEndpoint(endpoint, method string, jsonbody map[string]interface{}, max_
 		result_attempt = append(result_attempt, i)
 		result_concurrent_requests = append(result_concurrent_requests, concurrent_request_differential)
 
-		if i <= number_requests/2 {
-			concurrent_request_differential += max_concurrent_requests / number_requests
-		} else {
-			concurrent_request_differential -= max_concurrent_requests / number_requests
-		}
+		concurrent_request_differential += concurrent_request_differential
+
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
@@ -100,7 +94,7 @@ func TestEndpoint(endpoint, method string, jsonbody map[string]interface{}, max_
 
 }
 
-func Concurrent_requests(endpoint, method string, jsonbody map[string]interface{}, concurrent_request_number int) {
+func Concurrent_requests(endpoint, method string, jsonbody []byte, concurrent_request_number int) {
 	result_channel := make(chan time.Duration, max_concurrent_requests)
 	var wg sync.WaitGroup
 	for i := 0; i < concurrent_request_number; i++ {
@@ -126,15 +120,9 @@ func Concurrent_requests(endpoint, method string, jsonbody map[string]interface{
 	}
 }
 
-func Response_time_single(endpoint, method string, jsonbody map[string]interface{}, result_channel chan<- time.Duration, wg *sync.WaitGroup) {
+func Response_time_single(endpoint, method string, jsonbody []byte, result_channel chan<- time.Duration, wg *sync.WaitGroup) {
 	defer wg.Done()
-	marshaled_data, err := json.Marshal(jsonbody)
-	if err != nil {
-		fmt.Println("Error processing json data due to:", err)
-		result_channel <- 0
-		return
-	}
-	req, err := http.NewRequest(method, endpoint, bytes.NewBuffer(marshaled_data))
+	req, err := http.NewRequest(method, endpoint, bytes.NewBuffer(jsonbody))
 	if err != nil {
 		fmt.Println("Error creating API request due to:", err)
 		result_channel <- 0
@@ -150,6 +138,10 @@ func Response_time_single(endpoint, method string, jsonbody map[string]interface
 		return
 	}
 	defer response.Body.Close()
+	if response.StatusCode != http.StatusOK {
+		fmt.Println("Request did not recieved 200 status:", response.Status)
+		os.Exit(0)
+	}
 	responseTime := time.Since(startTime)
 	result_channel <- responseTime
 

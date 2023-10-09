@@ -1,6 +1,13 @@
 API:
-  max_concurrent_requests: 2
-  number_of_requests: 1
+  max_concurrent_requests: 3000
+  number_of_requests: 6
   endpoints:
-    - endpoint: "http://localhost:3000/"
-      method: "GET"
+    - endpoint: "http://localhost:3000/health"
+      method: "POST"
+      JSON: >
+        {
+          "Health": "health",
+            "Really": {
+             "Check": "test"
+              }
+         }
