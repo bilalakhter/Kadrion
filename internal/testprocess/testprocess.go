@@ -68,7 +68,7 @@ func TestEndpoint(endpoint, method string, jsonbody []byte, max_concurrent_reque
 		result_attempt = append(result_attempt, i)
 		result_concurrent_requests = append(result_concurrent_requests, concurrent_request_differential)
 
-		concurrent_request_differential += concurrent_request_differential
+		concurrent_request_differential += max_concurrent_requests / number_requests
 
 	}
 

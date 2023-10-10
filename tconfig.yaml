@@ -1,5 +1,5 @@
 API:
-  max_concurrent_requests: 3000
+  max_concurrent_requests: 100
   number_of_requests: 6
   endpoints:
     - endpoint: "http://localhost:3000/health"
