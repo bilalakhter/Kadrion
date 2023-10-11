@@ -28,7 +28,7 @@ Kadrion reads parameters from yaml file tconfig.yaml to apply changes and perfor
 
 tconfig.yaml needs to be places in current directory where the command is executed and needs to follow this structure to work correctly
 
-![](<https://hslytkjiifoqndixiofd.supabase.co/storage/v1/object/public/files/Add%20a%20subheading%20(1).png>)
+![](https://hslytkjiifoqndixiofd.supabase.co/storage/v1/object/public/files/Untitled%20design.png)
 
 # Feature
 
