@@ -5,7 +5,9 @@ Kadrion is CLI tool to test multiple api endpoints for performance metrics, It r
 To install this tool clone this directory
 
     git clone https://github.com/bilalakhter/kadrion
+
     cd kadrion
+
     make install
 
 Or you can downloed the binary from github Release
