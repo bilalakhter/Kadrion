@@ -26,6 +26,12 @@ Kadrion reads parameters from yaml file tconfig.yaml to apply changes and perfor
 
     kadrion apply tconfig.yaml
 
-```
+tconfig.yaml needs to be places in current directory where the command is executed and needs to follow this structure to work correctly
 
-```
+![](<https://hslytkjiifoqndixiofd.supabase.co/storage/v1/object/public/files/Add%20a%20subheading%20(1).png>)
+
+# Feature
+
+Perform load testing targeting different endpoints and check there response time at different attempts under different load
+
+![](https://hslytkjiifoqndixiofd.supabase.co/storage/v1/object/public/files/Screenshot_20231012_014947.png)
