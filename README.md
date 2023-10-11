@@ -35,3 +35,7 @@ tconfig.yaml needs to be places in current directory where the command is execut
 Perform load testing targeting different endpoints and check there response time at different attempts under different load
 
 ![](https://hslytkjiifoqndixiofd.supabase.co/storage/v1/object/public/files/Screenshot_20231012_014947.png)
+
+# Continuous testing
+
+Easily add a stage in your CI/CD pipeline by placing the tconfig.yaml file in your repository
