@@ -15,7 +15,8 @@ build: $(BIN_DIR)/$(BINARY)
 
 install: $(INSTALL_DIR)/$(BINARY)
 	@echo 'export PATH="$$PATH:$(INSTALL_DIR)"' >> ~/.bashrc
-	source ~/.bashrc
+	. ~/.bashrc
+	@echo "Binary installed successfully."
 
 clean:
 	@echo "Removing kadrion..."

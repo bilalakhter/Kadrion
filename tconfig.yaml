@@ -1,6 +1,6 @@
 API:
-  max_concurrent_requests: 100
-  number_of_requests: 6
+  max_concurrent_requests: 1000
+  number_of_requests: 10
   endpoints:
     - endpoint: "http://localhost:3000/health"
       method: "POST"
